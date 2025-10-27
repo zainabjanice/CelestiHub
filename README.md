@@ -59,6 +59,10 @@ astronomy_app/
     └── index.html             # Web interface
 
 ```
+## Project View
+
+<img width="1882" height="1030" alt="Image" src="https://github.com/user-attachments/assets/916e3773-411f-4a96-be60-f8952245243f" />
+
 ## Features
 - interactive celestial object management
 - Real-time updates from the database

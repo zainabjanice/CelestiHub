@@ -8,7 +8,9 @@
 
 ## Project Story 
 For centuries, humanity has looked up at the night sky with curiosity,  mapping constellations, naming stars, and seeking meaning in the cosmos.
+<img align="right" alt="Coding" width="550" src="https://i.pinimg.com/1200x/a9/2a/b2/a92ab2c5cb4e54805eedf9cf67bb1f11.jpg">
 But in the digital age, exploring space shouldn’t be limited to telescopes and star charts; it should be interactive, collaborative, and intelligent.
+
 
 **CelestiHub** was born from this idea, to create a modern astronomy web app that allows anyone, from students to researchers, to build their own universe.
 Whether you’re cataloging exoplanets, tracking nebulae, or inventing a fictional galaxy, CelestiVault gives you the power to create, modify, and visualize celestial objects seamlessly through an elegant web interface.

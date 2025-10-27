@@ -8,7 +8,7 @@
 
 ## Project Story 
 For centuries, humanity has looked up at the night sky with curiosity,  mapping constellations, naming stars, and seeking meaning in the cosmos.
-<img align="right" alt="Coding" width="550" src="https://i.pinimg.com/1200x/a9/2a/b2/a92ab2c5cb4e54805eedf9cf67bb1f11.jpg">
+<img align="right" alt="Coding" width="450" src="https://i.pinimg.com/1200x/a9/2a/b2/a92ab2c5cb4e54805eedf9cf67bb1f11.jpg">
 But in the digital age, exploring space shouldn’t be limited to telescopes and star charts; it should be interactive, collaborative, and intelligent.
 
 

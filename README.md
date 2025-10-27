@@ -67,12 +67,18 @@ astronomy_app/
 - Open to community contributions
 
 ## Tech Stack
-| Layer    | Technology                     |
-| -------- | ------------------------------ |
-| Frontend | HTML, CSS, Dart                |
-| Backend  | Dart (`shelf`, `mysql_client`) |
-| Database | MySQL                          |
-| Tools    | VS Code, WebDev Server         |
+
+<div align="center">
+  
+| Layer    | Technology                                 |
+| -------- | ------------------------------             |
+| Frontend | HTML, CSS, Dart                            |
+| Backend  | Dart (`shelf`, `mysql_client`)             |
+| Database | MySQL                                      |
+| Tools    | VS Code, WebDev Server                     |
+
+</div>
+
 
 ## Future Enhancements
 - Integrate 3D visualization using WebGL or Flutter Web

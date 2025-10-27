@@ -1,0 +1,14 @@
+name: astronomy_backend
+description: Astronomy Database API Server
+version: 1.0.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  mysql1: ^0.20.0
+  shelf: ^1.4.0
+  shelf_router: ^1.1.4
+
+dev_dependencies:
+  lints: ^2.0.0

@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Objects Database</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #2d1b4e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Starfield Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 33% 80%, white, transparent),
+                radial-gradient(3px 3px at 15% 60%, rgba(138, 43, 226, 0.5), transparent),
+                radial-gradient(2px 2px at 75% 25%, rgba(79, 172, 254, 0.5), transparent);
+            background-size: 200% 200%, 200% 200%, 300% 300%, 250% 250%, 200% 200%, 280% 280%, 150% 150%, 180% 180%;
+            animation: stars 200s linear infinite, twinkle 3s ease-in-out infinite;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        /* Animated Planets */
+        .planet {
+            position: fixed;
+            border-radius: 50%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .planet-1 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #ff6b9d, #c44569);
+            top: 10%;
+            right: 15%;
+            animation: floatPlanet1 40s ease-in-out infinite, rotatePlanet 60s linear infinite;
+            box-shadow: 0 0 60px rgba(255, 107, 157, 0.5);
+        }
+
+        .planet-2 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #4facfe, #00f2fe);
+            bottom: 20%;
+            left: 10%;
+            animation: floatPlanet2 35s ease-in-out infinite, rotatePlanet 50s linear infinite;
+            box-shadow: 0 0 50px rgba(79, 172, 254, 0.5);
+        }
+
+        .planet-3 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #f093fb, #f5576c);
+            top: 60%;
+            right: 25%;
+            animation: floatPlanet3 30s ease-in-out infinite, rotatePlanet 45s linear infinite;
+            box-shadow: 0 0 40px rgba(240, 147, 251, 0.5);
+        }
+
+        /* Nebula Clouds */
+        .nebula {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .nebula-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.4), transparent);
+            top: -100px;
+            left: -100px;
+            animation: floatNebula1 50s ease-in-out infinite;
+        }
+
+        .nebula-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.3), transparent);
+            bottom: -150px;
+            right: -150px;
+            animation: floatNebula2 60s ease-in-out infinite;
+        }
+
+        .nebula-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(240, 147, 251, 0.3), transparent);
+            top: 40%;
+            left: 30%;
+            animation: floatNebula3 45s ease-in-out infinite;
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            z-index: 0;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+            transform: translateX(-100px);
+        }
+
+        .shooting-star-1 {
+            top: 20%;
+            right: 80%;
+            animation: shootingStar1 8s linear infinite;
+        }
+
+        .shooting-star-2 {
+            top: 60%;
+            right: 90%;
+            animation: shootingStar2 10s linear 2s infinite;
+        }
+
+        .shooting-star-3 {
+            top: 40%;
+            right: 70%;
+            animation: shootingStar3 12s linear 4s infinite;
+        }
+
+        /* Animated Constellation Lines */
+        .constellation {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .constellation-1 {
+            top: 15%;
+            left: 20%;
+            animation: twinkleConstellation 5s ease-in-out infinite;
+        }
+
+        .constellation-2 {
+            bottom: 25%;
+            right: 30%;
+            animation: twinkleConstellation 6s ease-in-out 1s infinite;
+        }
+
+        /* Animation Keyframes */
+        @keyframes stars {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes floatPlanet1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, -50px) scale(0.95); }
+            75% { transform: translate(-30px, -20px) scale(1.02); }
+        }
+
+        @keyframes floatPlanet2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-40px, 20px) scale(1.1); }
+            50% { transform: translate(20px, 40px) scale(0.9); }
+            75% { transform: translate(30px, -10px) scale(1.05); }
+        }
+
+        @keyframes floatPlanet3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(25px, 35px) scale(1.08); }
+            66% { transform: translate(-25px, -25px) scale(0.92); }
+        }
+
+        @keyframes rotatePlanet {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes floatNebula1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, 80px) scale(1.2); }
+        }
+
+        @keyframes floatNebula2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-120px, -100px) scale(1.3); }
+        }
+
+        @keyframes floatNebula3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, -90px) scale(1.15); }
+        }
+
+        @keyframes shootingStar1 {
+            0% { transform: translate(0, 0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(-300px, 200px); opacity: 0; }
+        }
+
+        @keyframes shootingStar2 {
+            0% { transform: translate(0, 0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(-350px, 250px); opacity: 0; }
+        }
+
+        @keyframes shootingStar3 {
+            0% { transform: translate(0, 0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(-400px, 280px); opacity: 0; }
+        }
+
+        @keyframes twinkleConstellation {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Animation */
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 40px;
+            background: rgba(15, 15, 45, 0.7);
+            border-radius: 20px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(138, 43, 226, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #9d50bb, #6e48aa, #4facfe, #9d50bb);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            animation: gradientShift 4s ease infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #a0a0ff;
+            font-weight: 300;
+            animation: pulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(30, 30, 60, 0.6);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 25px;
+            color: #e0e0e0;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Card Entrance Animation */
+        .card {
+            background: rgba(20, 20, 50, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: cardEntrance 0.6s ease-out both;
+            transform-origin: center;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Rotating Glow Effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #667eea;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .card:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            color: #4facfe;
+            margin-bottom: 5px;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(79, 172, 254, 0.5); }
+            50% { text-shadow: 0 0 15px rgba(79, 172, 254, 0.8), 0 0 25px rgba(79, 172, 254, 0.5); }
+        }
+
+        .card-type {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            animation: typeBadge 0.5s ease-out;
+        }
+
+        @keyframes typeBadge {
+            from {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .card-info {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        .card-info div {
+            animation: slideIn 0.5s ease-out both;
+            padding: 4px 0;
+        }
+
+        .card-info div:nth-child(1) { animation-delay: 0.1s; }
+        .card-info div:nth-child(2) { animation-delay: 0.2s; }
+        .card-info div:nth-child(3) { animation-delay: 0.3s; }
+        .card-info div:nth-child(4) { animation-delay: 0.4s; }
+        .card-info div:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .card-info strong {
+            color: #a0a0ff;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            flex: 1;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+        }
+
+        /* Modal Animation */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.show {
+            display: block;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a3e 0%, #2d1b4e 100%);
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+            background-size: 400% 400%;
+            border-radius: 20px;
+            z-index: -1;
+            animation: gradientBorder 3s ease infinite;
+        }
+
+        @keyframes gradientBorder {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .modal h2 {
+            color: #4facfe;
+            margin-bottom: 25px;
+            font-size: 2em;
+            animation: fadeInDown 0.5s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.15s; }
+        .form-group:nth-child(3) { animation-delay: 0.2s; }
+        .form-group:nth-child(4) { animation-delay: 0.25s; }
+        .form-group:nth-child(5) { animation-delay: 0.3s; }
+        .form-group:nth-child(6) { animation-delay: 0.35s; }
+        .form-group:nth-child(7) { animation-delay: 0.4s; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0a0ff;
+            font-weight: 600;
+        }
+
+        textarea {
+            border-radius: 15px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease-out 0.5s both;
+        }
+
+        .form-actions button {
+            flex: 1;
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #636363 0%, #3a3a3a 100%);
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #a0a0ff;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a0a0ff;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .empty-state h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #4facfe;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Notification Animation */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            animation: slideInRight 0.4s ease-out, slideOutRight 0.4s ease-in 2.6s;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .grid { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+            .search-box { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="planet planet-1"></div>
+    <div class="planet planet-2"></div>
+    <div class="planet planet-3"></div>
+    
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+    
+    <div class="shooting-star shooting-star-1"></div>
+    <div class="shooting-star shooting-star-2"></div>
+    <div class="shooting-star shooting-star-3"></div>
+    
+    <svg class="constellation constellation-1" viewBox="0 0 200 200">
+        <circle cx="30" cy="40" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="80" cy="30" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="120" cy="80" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="60" cy="100" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="30" y1="40" x2="80" y2="30" stroke="rgba(138, 43, 226, 0.5)" stroke-width="1"/>
+        <line x1="80" y1="30" x2="120" y2="80" stroke="rgba(138, 43, 226, 0.5)" stroke-width="1"/>
+        <line x1="120" y1="80" x2="60" y2="100" stroke="rgba(138, 43, 226, 0.5)" stroke-width="1"/>
+        <line x1="60" y1="100" x2="30" y2="40" stroke="rgba(138, 43, 226, 0.5)" stroke-width="1"/>
+    </svg>
+    
+    <svg class="constellation constellation-2" viewBox="0 0 200 200">
+        <circle cx="50" cy="50" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="60" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" begin="0.7s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="150" cy="50" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" begin="1.4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="120" r="2" fill="white" opacity="0.8">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" begin="2.1s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="50" y1="50" x2="100" y2="60" stroke="rgba(79, 172, 254, 0.5)" stroke-width="1"/>
+        <line x1="100" y1="60" x2="150" y2="50" stroke="rgba(79, 172, 254, 0.5)" stroke-width="1"/>
+        <line x1="100" y1="60" x2="100" y2="120" stroke="rgba(79, 172, 254, 0.5)" stroke-width="1"/>
+    </svg>
+
+    <div class="container">
+        <header>
+            <h1>CelestiaHub</h1>
+            <p class="subtitle">All your celestial objects in one place.</p>
+        </header>
+
+        <div class="controls">
+            <button onclick="showModal()">Add New Object</button>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search celestial objects..." oninput="filterObjects()">
+            </div>
+        </div>
+
+        <div id="objectsGrid" class="grid">
+            <div class="loading">Loading celestial objects</div>
+        </div>
+    </div>
+
+    <!-- Modal for Create/Edit -->
+    <div id="objectModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add New Celestial Object</h2>
+            <form id="objectForm">
+                <input type="hidden" id="objectId">
+                
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type *</label>
+                    <select id="type" required>
+                        <option value="">Select type...</option>
+                        <option value="Star">Star</option>
+                        <option value="Planet">Planet</option>
+                        <option value="Galaxy">Galaxy</option>
+                        <option value="Nebula">Nebula</option>
+                        <option value="Black Hole">Black Hole</option>
+                        <option value="Asteroid">Asteroid</option>
+                        <option value="Comet">Comet</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="distance_ly">Distance (Light Years)</label>
+                    <input type="number" id="distance_ly" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="magnitude">Apparent Magnitude</label>
+                    <input type="number" id="magnitude" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="constellation">Constellation</label>
+                    <input type="text" id="constellation">
+                </div>
+
+                <div class="form-group">
+                    <label for="discovered_year">Year Discovered</label>
+                    <input type="number" id="discovered_year">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit">Save Object</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8081/api/objects';
+        let allObjects = [];
+
+        // Show notification
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Fetch all objects from backend
+        async function fetchObjects() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error('Backend not responding');
+                }
+                allObjects = await response.json();
+                renderObjects(allObjects);
+            } catch (error) {
+                console.error('Error fetching objects:', error);
+                document.getElementById('objectsGrid').innerHTML = 
+                    '<div class="empty-state"><h3>⚠️ Connection Error</h3><p>Make sure the Dart backend server is running on port 8080</p><p>Run: <code>dart run bin/server.dart</code></p></div>';
+            }
+        }
+
+        // Render objects to grid
+        function renderObjects(objects) {
+            const grid = document.getElementById('objectsGrid');
+            
+            if (objects.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><h3>🌟 No objects found</h3><p>Start by adding your first celestial object!</p></div>';
+                return;
+            }
+
+            grid.innerHTML = objects.map((obj, index) => `
+                <div class="card" style="animation-delay: ${index * 0.1}s">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">${obj.name}</h3>
+                                <span class="card-type">${obj.type}</span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            ${obj.distance_ly ? `<div><strong>Distance:</strong> ${parseFloat(obj.distance_ly).toLocaleString()} light years</div>` : ''}
+                            ${obj.magnitude ? `<div><strong>Magnitude:</strong> ${obj.magnitude}</div>` : ''}
+                            ${obj.constellation ? `<div><strong>Constellation:</strong> ${obj.constellation}</div>` : ''}
+                            ${obj.discovered_year ? `<div><strong>Discovered:</strong> ${obj.discovered_year}</div>` : ''}
+                            ${obj.description ? `<div><strong>Description:</strong> ${obj.description}</div>` : ''}
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-edit" onclick="editObject(${obj.id})">Edit</button>
+                            <button class="btn-delete" onclick="deleteObject(${obj.id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+        }
+
+        // Filter objects by search term
+        function filterObjects() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allObjects.filter(obj => 
+                obj.name.toLowerCase().includes(searchTerm) ||
+                obj.type.toLowerCase().includes(searchTerm) ||
+                (obj.constellation && obj.constellation.toLowerCase().includes(searchTerm)) ||
+                (obj.description && obj.description.toLowerCase().includes(searchTerm))
+            );
+            renderObjects(filtered);
+        }
+
+        // Show modal for adding/editing
+        function showModal(obj = null) {
+            document.getElementById('modalTitle').textContent = obj ? 'Edit Celestial Object' : 'Add New Celestial Object';
+            document.getElementById('objectId').value = obj ? obj.id : '';
+            document.getElementById('name').value = obj ? obj.name : '';
+            document.getElementById('type').value = obj ? obj.type : '';
+            document.getElementById('distance_ly').value = obj ? obj.distance_ly : '';
+            document.getElementById('magnitude').value = obj ? obj.magnitude : '';
+            document.getElementById('constellation').value = obj ? obj.constellation : '';
+            document.getElementById('discovered_year').value = obj ? obj.discovered_year : '';
+            document.getElementById('description').value = obj ? obj.description : '';
+            document.getElementById('objectModal').style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('objectModal').style.display = 'none';
+            document.getElementById('objectForm').reset();
+        }
+
+        // Edit object
+        function editObject(id) {
+            const obj = allObjects.find(o => o.id === id);
+            if (obj) showModal(obj);
+        }
+
+        // Delete object
+        async function deleteObject(id) {
+            if (!confirm('Are you sure you want to delete this celestial object?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Delete failed');
+                
+                showNotification(' Object deleted successfully!');
+                await fetchObjects();
+            } catch (error) {
+                console.error('Error deleting object:', error);
+                showNotification('❌ Error deleting object');
+            }
+        }
+
+        // Form submit handler
+        document.getElementById('objectForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('objectId').value;
+            const data = {
+                name: document.getElementById('name').value,
+                type: document.getElementById('type').value,
+                distance_ly: document.getElementById('distance_ly').value || null,
+                magnitude: document.getElementById('magnitude').value || null,
+                constellation: document.getElementById('constellation').value || null,
+                discovered_year: document.getElementById('discovered_year').value || null,
+                description: document.getElementById('description').value || null,
+            };
+
+            try {
+                const url = id ? `${API_URL}/${id}` : API_URL;
+                const method = id ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) throw new Error('Save failed');
+
+                showNotification(id ? 'Object updated successfully!' : ' Object created successfully!');
+                closeModal();
+                await fetchObjects();
+            } catch (error) {
+                console.error('Error saving object:', error);
+                showNotification('❌ Error saving object');
+            }
+        });
+
+        // Close modal on outside click
+        window.onclick = (event) => {
+            const modal = document.getElementById('objectModal');
+            if (event.target === modal) closeModal();
+        };
+
+        // Initial load
+        fetchObjects();
+    </script>
+</body>
+</html>
